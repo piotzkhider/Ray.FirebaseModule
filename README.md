@@ -24,10 +24,10 @@ use Ray\Di\AbstractModule;
 
 class AppModule extends AbstractModule
 {
-	protected function configure()
-	{
-		$this->install(new FirebaseModule($_ENV['GOOGLE_APPLICATION_CREDENTIALS']));
-	}
+    protected function configure()
+    {
+        $this->install(new FirebaseModule($_ENV['GOOGLE_APPLICATION_CREDENTIALS']));
+    }
 }
 ```
 
