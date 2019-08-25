@@ -7,7 +7,7 @@ namespace Piotzkhider\FirebaseModule;
 use Kreait\Firebase;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
-use Piotzkhider\FirebaseModule\Annotation\GoogleApplicationCredentials;
+use Piotzkhider\FirebaseModule\Annotation\Credentials;
 use Ray\Di\Di\PostConstruct;
 use Ray\Di\ProviderInterface;
 
@@ -24,7 +24,7 @@ class FirebaseProvider implements ProviderInterface
     private $firebase;
 
     /**
-     * @GoogleApplicationCredentials
+     * @Credentials()
      */
     public function __construct($credentials)
     {

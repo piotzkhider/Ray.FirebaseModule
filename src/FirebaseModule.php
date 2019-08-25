@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Piotzkhider\FirebaseModule;
 
 use Kreait\Firebase;
-use Piotzkhider\FirebaseModule\Annotation\GoogleApplicationCredentials;
+use Piotzkhider\FirebaseModule\Annotation\Credentials;
 use Ray\Di\AbstractModule;
 use Ray\Di\Scope;
 
@@ -24,7 +24,7 @@ class FirebaseModule extends AbstractModule
 
     protected function configure(): void
     {
-        $this->bind()->annotatedWith(GoogleApplicationCredentials::class)->toInstance($this->credentials);
+        $this->bind()->annotatedWith(Credentials::class)->toInstance($this->credentials);
         $this->bind(Firebase::class)->toProvider(FirebaseProvider::class)->in(Scope::SINGLETON);
     }
 }

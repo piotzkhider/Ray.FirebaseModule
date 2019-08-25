@@ -12,7 +12,6 @@ use Ray\Di\Di\Qualifier;
  * @Target("METHOD")
  * @Qualifier
  */
-class GoogleApplicationCredentials
+class Credentials
 {
-    public $value;
 }
