@@ -12,9 +12,12 @@ use Ray\Di\Injector;
 
 class FirebaseModuleTest extends TestCase
 {
-    public function testModule(): void
+    /**
+     * @dataProvider credentialsDataProvider
+     */
+    public function testModule($credentials): void
     {
-        $instance = (new Injector(new FirebaseModule(__DIR__ . '/dummy.json'), __DIR__ . '/tmp'))->getInstance(Firebase::class);
+        $instance = (new Injector(new FirebaseModule($credentials), __DIR__ . '/tmp'))->getInstance(Firebase::class);
         $this->assertInstanceOf(Firebase::class, $instance);
     }
 
@@ -25,24 +28,25 @@ class FirebaseModuleTest extends TestCase
         $this->assertInstanceOf(Firebase::class, $firebase);
     }
 
-    public function testFromJsonFile(): void
+    public function testInject(): void
     {
-        $instance = (new Injector(new FirebaseModule(__DIR__ . '/dummy.json'), __DIR__ . '/tmp'))->getInstance(Firebase::class);
-        $this->assertInstanceOf(Firebase::class, $instance);
+        $injector = new Injector(new FirebaseModule(__DIR__ . '/dummy.json'), __DIR__ . '/tmp');
+        $firebase = $injector->getInstance(Firebase::class);
+        /** @var FakeFirebaseInject $fakeInject */
+        $fakeInject = $injector->getInstance(FakeFirebaseInject::class);
+        $this->assertSame($firebase, $fakeInject->get());
     }
 
-    public function testFromJson(): void
+    public function credentialsDataProvider()
     {
-        $json = file_get_contents(__DIR__ . '/dummy.json');
-        $instance = (new Injector(new FirebaseModule($json), __DIR__ . '/tmp'))->getInstance(Firebase::class);
-        $this->assertInstanceOf(Firebase::class, $instance);
-    }
+        $jsonPath = __DIR__ . '/dummy.json';
+        $json = file_get_contents($jsonPath);
+        $array = json_decode((string) $json, true);
 
-    public function testFromArray(): void
-    {
-        $json = (string) file_get_contents(__DIR__ . '/dummy.json');
-        $array = json_decode($json, true);
-        $instance = (new Injector(new FirebaseModule($array), __DIR__ . '/tmp'))->getInstance(Firebase::class);
-        $this->assertInstanceOf(Firebase::class, $instance);
+        return [
+            [$jsonPath],
+            [$json],
+            [$array],
+        ];
     }
 }
